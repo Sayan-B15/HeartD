@@ -5,7 +5,7 @@ import joblib
 import matplotlib.pyplot as plt
 
 # Set page configuration
-st.set_page_config(page_title="Heart Disease Prediction", page_icon="❤️", layout="wide")
+st.set_page_config(page_title="Heart Disease Prediction", page_icon="🫀", layout="wide")
 
 # Custom CSS to improve app appearance
 st.markdown("""
@@ -61,7 +61,7 @@ def predict_heart_disease(input_data):
         return None
 
 def main():
-    st.title('❤️ Heart Disease Prediction App')
+    st.title('Heart Disease Prediction App')
     st.write('This app predicts the likelihood of heart disease based on your input.')
 
     # Create two columns for input fields
@@ -163,21 +163,6 @@ def main():
 
             if not risk_factors:
                 st.markdown('<div class="risk-factor low-risk">No significant risk factors identified</div>', unsafe_allow_html=True)
-
-            # Visualize some key metrics
-            st.subheader("Key Health Metrics")
-            fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 5))
-
-            ax1.pie([cholesterol, 200-cholesterol], labels=['Your Cholesterol', 'Ideal Range'], autopct='%1.1f%%', startangle=90, colors=['#ff9999','#66b3ff'])
-            ax1.set_title('Cholesterol Level')
-
-            ax2.pie([blood_pressure, 120-blood_pressure], labels=['Your Blood Pressure', 'Ideal Range'], autopct='%1.1f%%', startangle=90, colors=['#ff9999','#66b3ff'])
-            ax2.set_title('Blood Pressure')
-
-            ax3.pie([blood_sugar, 100-blood_sugar], labels=['Your Blood Sugar', 'Ideal Range'], autopct='%1.1f%%', startangle=90, colors=['#ff9999','#66b3ff'])
-            ax3.set_title('Blood Sugar')
-
-            st.pyplot(fig)
 
         else:
             st.error("Unable to make a prediction. Please check your inputs and try again.")
