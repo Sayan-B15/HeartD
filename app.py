@@ -4,21 +4,26 @@ import numpy as np
 import joblib
 
 # Load the trained model
-model = joblib.load('HeartDiseaseDetection')
-
-# Print and store model features
-feature_names = model.feature_names_in_
-print("Model features:", feature_names)
+try:
+    model = joblib.load('HeartDiseaseDetection')
+    # Print and store model features
+    feature_names = model.feature_names_in_
+    print("Model features:", feature_names)
+except Exception as e:
+    st.error(f"Error loading the model: {str(e)}")
+    st.stop()
 
 def predict_heart_disease(input_data):
     # Create a DataFrame with the input data, ensuring correct feature order
     input_df = pd.DataFrame([input_data], columns=feature_names)
     
     # Make prediction
-    prediction = model.predict(input_df)
-    probability = model.predict_proba(input_df)
-    
-    return prediction[0], probability[0][1]
+    try:
+        prediction = model.predict(input_df)
+        return prediction[0]
+    except Exception as e:
+        st.error(f"Error making prediction: {str(e)}")
+        return None
 
 def main():
     st.title('Heart Disease Prediction App')
@@ -71,15 +76,18 @@ def main():
             if feature not in input_data:
                 input_data[feature] = 0
 
-        prediction, probability = predict_heart_disease(input_data)
+        prediction = predict_heart_disease(input_data)
 
-        st.subheader('Prediction Results:')
-        if prediction == 1:
-            st.write('The model predicts that you may have a heart disease.')
+        if prediction is not None:
+            st.subheader('Prediction Results:')
+            if prediction == 1:
+                st.write('The model predicts that you may have a heart disease.')
+            else:
+                st.write('The model predicts that you may not have a heart disease.')
+            
+            st.write("Note: This model does not provide probability estimates.")
         else:
-            st.write('The model predicts that you may not have a heart disease.')
-        
-        st.write(f'Probability of heart disease: {probability:.2%}')
+            st.error("Unable to make a prediction. Please check your inputs and try again.")
 
 if __name__ == '__main__':
     main()
