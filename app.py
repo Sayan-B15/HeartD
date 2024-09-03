@@ -19,6 +19,8 @@ st.markdown("""
         padding: 10px;
         border-radius: 5px;
         margin-bottom: 10px;
+        font-size: 16px;
+        color: black;  /* Set font color to black */
     }
     .high-risk {
         background-color: #ffcccb;
